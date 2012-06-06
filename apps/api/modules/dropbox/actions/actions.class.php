@@ -3,7 +3,6 @@ class dropboxActions extends opJsonApiActions
 {
 
   public function getDropbox(){
-    //require_once dirname(__FILE__) . '/Dropbox/autoload.php';
     $oauth = new Dropbox_OAuth_PEAR(sfConfig::get('app_consumer'),sfConfig::get('app_consumer_secret'));
     $oauth->setToken(sfConfig::get('app_token'),sfConfig::get('app_token_secret'));
 

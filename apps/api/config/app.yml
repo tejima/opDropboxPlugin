@@ -1,6 +1,0 @@
-all:
-  consumer: CONSUMER_FIXME
-  consumer_secret: CONSUMER_SECRET_FIXME
-  token: TOKEN_FIXME
-  token_secret: TOKEN_SECRET_FIXME
-
