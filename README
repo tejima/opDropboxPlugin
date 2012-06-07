@@ -6,15 +6,26 @@ Dropboxの共有ファイルの指定も行いたい。
 ◆インストール
 /plugins/に設置
 
+◆Dropbox設定
+Dropboxアカウントを一つ準備する
 
-◆設定
+デベロッパーとしてDropboxでアプリを登録し、consumer_key consumer_secretを取得
+テストサイトでDropbox代表アカウント用のaccesstokenを取得する http://term.ie/oauth/example/client.php
+Dropbox側に/PNE/のディレクトリを作成する
+
+◆プラグイン設定
+app.ymlに
+
+consumer_key
+consumer_secret
+accesstoken
+accesstoken_secret
 代表アカウントのIDとパスワードをセット
 アプリキーをセット
 
-Dropbox側にSNSのドメイン名と同一のディレクトリを作成しておく
 
 ◆操作方法
-/dropbox/ にアクセスすると、一覧が表示される（予定）
+管理画面からDropboxサイドバーガジェット追加
 
 
 
