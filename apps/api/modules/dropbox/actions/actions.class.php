@@ -14,7 +14,7 @@ class dropboxActions extends opJsonApiActions
   {
     $path = $request->getParameter("path");
     $dropbox = $this->getDropbox();
-    $delete_ok = false
+    $delete_ok = false;
     if(preg_match('/^PNE\/m(\d+)/',$path,$match)){
       $path_member_id = $match[1];
       //member mode
@@ -40,8 +40,16 @@ class dropboxActions extends opJsonApiActions
 
   public function executeList(sfWebRequest $request)
   {
+    $path = $request->getParameter("path");
+    if(strpos($path, "/PNE/") !== 0){
+      return $this->renderJSON(array('status' => 'error','message' => 'only accept /PNE/ directory,' . $path));
+    }
     $dropbox = $this->getDropbox();
-    $response = $dropbox->getMetaData('/PNE/');
+    try{
+      $response = $dropbox->getMetaData($path);
+    }catch(Exception $e){
+      return $this->renderJSON(array('status' => 'error','data' => $response));
+    }
     return $this->renderJSON(array('status' => 'success','data' => $response));
   }
 
@@ -97,25 +105,23 @@ class dropboxActions extends opJsonApiActions
       $dirname = '/PNE/c'. $community_id;
     }else{
 
-      $dirname = '/PNE/c'. $community_id;
-      $filepath = '/PNE/m'. $this->getUser()->getMember()->getId() 
+      $dirname = '/PNE/m'. $this->getUser()->getMember()->getId(); 
     }
    
     //validate $filepath
-    if(!preg_match('/PNE\/[cm]\d+\/.*$')){
-      return $this->renderJSON(array('status' => 'error' ,'message' => "file path error."));
+    if(!preg_match('/^\/PNE\/m[0-9]+/',$dirname)){
+      return $this->renderJSON(array('status' => 'error' ,'message' => "file path error. " . $dirname));
     }
- 
     $dropbox = $this->getDropbox();
     try{
       $response = $dropbox->createFolder($dirname);
     }catch(Exception $e){
-      error_log($e->toString(), 3, "/tmp/loglog"); 
+      error_log($e, 3, "/tmp/bootstrap.log"); 
     }
-    $response = $dropbox->putFile($dirname .'/'. $_FILES['upfile']['tmp_name']);
+    $response = $dropbox->putFile($dirname .'/'.$filename , $_FILES['upfile']['tmp_name']);
     if($response === true){
       //$response = $dropbox->share('/PNE/'.$filename);
-      return $this->renderJSON(array('status' => 'success' , 'message' => "file up success"));
+      return $this->renderJSON(array('status' => 'success' , 'message' => "file up success " . $response));
     }else{
       return $this->renderJSON(array('status' => 'error','message' => "Dropbox file upload error"));
     }
