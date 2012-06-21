@@ -12,10 +12,11 @@
 <script>
   var data = {};
   data.apiKey = openpne.apiKey;
+  data.path = '/PNE/m<?php echo $member->getId(); ?>';
   var $pushHtml;
   $.get('/api.php/dropbox/list',data,function(json){
     console.log(json);
-    json.title = "Dropbox リスト"
+    json.title = "ファイルリスト"
     $pushHtml = $("#fileListTemplate").tmpl(json);
 /*
     $(".shareLink", $pushHtml).click(function(){
