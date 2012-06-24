@@ -3,8 +3,8 @@ class dropboxActions extends opJsonApiActions
 {
 
   public function getDropbox(){
-    $oauth = new Dropbox_OAuth_PEAR(sfConfig::get('app_consumer'),sfConfig::get('app_consumer_secret'));
-    $oauth->setToken(sfConfig::get('app_token'),sfConfig::get('app_token_secret'));
+    $oauth = new Dropbox_OAuth_PEAR(sfConfig::get('app_opdropboxplugin_consumer'),sfConfig::get('app_opdropboxplugin_consumer_secret'));
+    $oauth->setToken(opConfig::get('opdropboxplugin_oauth_token'),opConfig::get('opdropboxplugin_oauth_token_secret'));
 
     $dropbox = new Dropbox_API($oauth,'sandbox');
     return $dropbox;
