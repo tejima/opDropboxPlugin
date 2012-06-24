@@ -1,31 +1,24 @@
 ◆opDropboxPlugin概要
 OpenPNEからDropboxにアクセスするプラグイン。
 Dropbox内のファイルの表示、ダウンロード、アップロード。
-Dropboxの共有ファイルの指定も行いたい。
 
 ◆インストール
 /plugins/に設置
 
 ◆Dropbox設定
-Dropboxアカウントを一つ準備する
-
-デベロッパーとしてDropboxでアプリを登録し、consumer_key consumer_secretを取得
-テストサイトでDropbox代表アカウント用のaccesstokenを取得する http://term.ie/oauth/example/client.php
-Dropbox側に/PNE/のディレクトリを作成する
+Dropboxアカウントを一つ準備する。
 
 ◆プラグイン設定
-app.ymlに
+管理画面プラグイン設定から Get Token リンクをクリックし
+Dropboxアプリの許可を与えTokenを取得する。
+連携したDropboxアカウントには"PNE"フォルダが作成される。
 
-consumer_key
-consumer_secret
-accesstoken
-accesstoken_secret
-代表アカウントのIDとパスワードをセット
-アプリキーをセット
+※本プラグインはPNEフォルダ以下を読み書きします。
 
 
 ◆操作方法
-管理画面からDropboxサイドバーガジェット追加
+管理画面からDropboxガジェット追加
 
-
-
+◆配布方法の注意
+githubでは、app.ymlを提供していない。
+配布ZIPにはapp.ymlを含める。
