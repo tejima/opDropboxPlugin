@@ -5,6 +5,13 @@ Dropbox内のファイルの表示、ダウンロード、アップロード。
 ◆インストール
 /plugins/に設置
 
+
+OAuth などのライブラリが足りないので
+/lib/vendor/Zend 以下のZendframeworkを置き換える。
+
+※開発者環境では、 1.11.11で動作検証した。
+http://framework.zend.com/download/archives/
+
 ◆Dropbox設定
 Dropboxアカウントを一つ準備する。
 
