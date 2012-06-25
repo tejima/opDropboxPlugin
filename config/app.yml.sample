@@ -1,6 +1,4 @@
 all:
   consumer: 
   consumer_secret: 
-  token: 
-  token_secret: 
 
