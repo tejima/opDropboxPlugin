@@ -1,4 +1,5 @@
 all:
-  consumer: 
-  consumer_secret: 
+  opdropboxplugin_consumer: XXXXXXXXXXXXXXXX
+  opdropboxplugin_consumer_secret: XXXXXXXXXXXXXXXXXXXXXXX
+
 
