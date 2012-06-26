@@ -10,12 +10,13 @@
 class dropboxActions extends sfActions
 {
   public function getDropbox(){
-    $oauth = new Dropbox_OAuth_PEAR(sfConfig::get('app_consumer'),sfConfig::get('app_consumer_secret'));
-    $oauth->setToken(sfConfig::get('app_token'),sfConfig::get('app_token_secret'));
+    $oauth = new Dropbox_OAuth_PEAR(sfConfig::get('app_opdropboxplugin_consumer'),sfConfig::get('app_opdropboxplugin_consumer_secret'));
+    $oauth->setToken(opConfig::get('opdropboxplugin_oauth_token'),opConfig::get('opdropboxplugin_oauth_token_secret'));
 
-    $dropbox = new Dropbox_API($oauth);
+    $dropbox = new Dropbox_API($oauth,'sandbox');
     return $dropbox;
   }
+
  /**
   * Executes index action
   *
@@ -24,15 +25,12 @@ class dropboxActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     $path = $request->getParameter("path");
-    if(strpos($path, "/PNE/") !== 0){
-      return $this->renderText(json_encode(array('status' => 'error','message' => 'only accept /PNE/ directory,' . $path)));
-    }
     $dropbox = $this->getDropbox();
     try{
       $data = $dropbox->getFile($path);
     }catch(Exception $e)
     {
-      return $this->renderText(json_encode(array('status' => 'error','message' => 'Dropbox connection Error' . $path)));
+      return $this->renderText(json_encode(array('status' => 'error','message' => 'Dropbox connection Error' . $path .$e->getMessage())));
     }
     if(!$data){
       return $this->renderText(json_encode(array('status' => 'error','message' => "Dropbox file download error")));
