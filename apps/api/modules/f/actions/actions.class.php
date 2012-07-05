@@ -3,18 +3,50 @@ class fActions extends opJsonApiActions
 {
   public function executeUpload(sfWebRequest $request)
   {
+    $filename = basename($_FILES['upfile']['name']);
+    if(!$filename){
+      return $this->renderJSON(array('status' => 'error' , 'message' => "null file"));
+    }
+
+     $community_id = (int)$request->getParameter("community_id");
+    if((int)$community_id >= 1){
+      $community = Doctrine::getTable("Community")->find($community_id);
+      if(!$community->isPrivilegeBelong($this->getUser()->getMember()->getId())){
+        return $this->renderJSON(array('status' => 'error' ,'message' => "you are not this community member."));
+      }
+      $dirname = '/c'. $community_id;
+    }else{
+      $dirname = '/m'. $this->getUser()->getMember()->getId();
+    }
+
+    //validate $filepath
+    if(!preg_match('/^\/[mc][0-9]+/',$dirname)){
+      return $this->renderJSON(array('status' => 'error' ,'message' => "file path error. " . $dirname));
+    }
+    
     $f = new File();
-    $f->setOriginalFilename(time()."FILENAME.txt");
-    $f->setType("application/octet-stream");
-    $f->setName("/m1/".time()."FILENAME.txt");
-    $f->setFilesize("100");
+    $f->setOriginalFilename($_FILES['upfile']['name']);
+    $f->setType($_FILES['upfile']['type']);
+    $f->setName($dirname."/".time().$_FILES['upfile']['tmp_name']);
+    $f->setFilesize($_FILES['upfile']['size']);
+    if($stream = fopen($_FILES['upfile']['tmp_name']){
+      $bin = new FileBin();
+      $bin->setBin(stream_get_contents($stream));
+      $f->setFileBin($bin);
+      $f->save();
+      $response = true;
+    }else{
+      //file open error
+      $response = false;
+    }
 
-    $bin = new FileBin();
-    $bin->setBin("aaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbbaaaaaaaaaabbbbbbbbbb");
-    $f->setFileBin($bin);
+    if($response === true){
+      return $this->renderJSON(array('status' => 'success' , 'message' => "file up success " . $response));
+    }else{
+      return $this->renderJSON(array('status' => 'error','message' => "Dropbox file upload error"));
+    }
 
-    $f->save();
-    return $this->renderText("DONE");
+
   }
   public function executeList(sfWebRequest $request)
   {

@@ -13,3 +13,19 @@ dropboxBox:
       IsRequired: true
       Default:    10
       Choices:    {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30}
+fBox:
+  caption:
+    ja_JP: "ファイル一覧"
+  description:
+    ja_JP: "ファイル一覧を表示します"
+  component: [f, fBox]
+  config:
+    num:
+      Name:       "num"
+      Caption:    "表示件数"
+      FormType:   "select"
+      ValueType:  "int"
+      IsRequired: true
+      Default:    10
+      Choices:    {1: 5, 2: 10, 3: 15, 4: 20, 5: 25, 6: 30}
+
